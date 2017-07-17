@@ -1,0 +1,89 @@
+# Latest is v3, which is the recommended, but your docker engine might not be up to date
+version: '2'
+
+# This will create a network that will allow all services to reach each other (only from dc v2+)
+networks:
+  stack:
+
+services:
+
+  postgres:
+    image: postgres:9-alpine
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
+    ports:
+     - "5432:5432"
+    networks:
+      - stack
+
+  redis:
+    image: redis:3-alpine
+    expose:
+      - 6379
+    ports:
+     - "6379:6379"
+    networks:
+      - stack
+
+
+  rabbitmq:
+    #image: rabbitmq:3-management-alpine, 
+    image: rabbitmq:3-alpine
+    expose:
+      - 5672
+    ports:
+     - "5672:5672"
+     - "15672:15672"
+    networks:
+      - stack
+
+  gateway:
+    build: gateway
+    volumes:
+      - ./gateway:/code
+      - /code/node_modules
+    networks:
+      - stack
+    ports:
+      - "8100:80"
+
+  slack:
+    build: slack
+    volumes:
+      - ./slack:/code
+    ports:
+      - "8102:80"
+
+    networks:
+      - stack
+
+  user:
+    command: ./run.sh
+    build: user
+    volumes:
+      - ./user:/code
+    ports:
+      - "8101:80"
+    networks:
+      - stack
+
+  user-queue:
+    command: python consumer.py
+    depends_on: 
+      - user
+    build: user
+    volumes:
+      - ./user:/code
+    networks:
+      - stack
+
+  bdd:
+    build: bdd
+    volumes:
+      - ./bdd:/code
+    networks:
+      - stack

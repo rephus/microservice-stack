@@ -1,0 +1,11 @@
+# COMMON
+*.log
+
+# NODEJS
+node_modules
+
+# PYTHON
+*.pyc
+.venv
+__pycache__
+.cache

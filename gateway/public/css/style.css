@@ -1,0 +1,27 @@
+.main{
+  margin:0 auto;
+  width:1000px;
+  background-color:#eee;
+  padding:5px;
+}
+
+div {
+  border:1px solid #bbb;
+  padding:5px;
+  width: 200px;
+  background-color:white;
+}
+div input,
+div button {
+    display: block;
+    width:100%;
+}
+
+.createUser{
+  border:1px solid #bbb;
+  padding:5px;
+}
+
+.error {
+  color:red;
+}

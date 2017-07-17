@@ -1,0 +1,22 @@
+{
+  "name": "rest-demo",
+  "repository": "github@TODO",
+  "dependencies": {
+    "amqplib": "^0.5.1",
+    "body-parser": "1.0.2",
+    "express": "4.1.1",
+    "redis": "^2.6.3"
+  },
+  "engine": {
+    "node": ">=0.10.25"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "supertest": "^3.0.0"
+  },
+  "scripts": {
+    "test": "npm run test:unit -s && npm run test:integration -s",
+    "test:unit": "mocha test/unit",
+    "test:integration": "mocha test/integration"
+  }
+}
